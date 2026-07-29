@@ -3,14 +3,14 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# 复制 package 文件
+# 复制根目录 package.json（包含所有依赖）
 COPY package*.json ./
-COPY frontend/package*.json ./frontend/
 
-# 安装所有依赖（包括 devDependencies）
+# 安装所有依赖
 RUN npm install
 
 # 复制前端代码并构建
+COPY frontend/package*.json ./frontend/
 COPY frontend ./frontend
 WORKDIR /app/frontend
 RUN npm run build
@@ -20,16 +20,14 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# 创建数据和上传目录
+# 创建目录
 RUN mkdir -p /app/backend/data /app/backend/uploads
 
-# 复制后端相关文件和依赖
-COPY backend/package*.json ./backend/
-WORKDIR /app/backend
-RUN npm install --production
+# 复制根目录 package.json 并安装生产依赖
+COPY package*.json ./
+RUN npm install --omit=dev
 
 # 复制后端代码
-WORKDIR /app
 COPY backend ./backend
 
 # 从构建阶段复制构建好的前端静态文件
