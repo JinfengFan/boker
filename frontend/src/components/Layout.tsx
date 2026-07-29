@@ -28,18 +28,11 @@ export default function Layout() {
                 </div>
               </div>
               <div className="flex items-center space-x-4">
-                {isAuthenticated ? (
+                {isAuthenticated && (
                   <div className="hidden md:flex items-center space-x-2 px-3 py-1.5 glass-light rounded-full">
                     <div className="w-2 h-2 bg-ios-systemGreen rounded-full animate-pulse"></div>
                     <span className="text-sm font-medium text-ios-label">{user?.username}</span>
                   </div>
-                ) : (
-                  <Link
-                    to="/login"
-                    className="px-4 py-2 bg-primary/90 backdrop-blur-md text-white rounded-ios hover:bg-primaryDark font-medium shadow-ios transition-all border border-white/30"
-                  >
-                    登录
-                  </Link>
                 )}
               </div>
             </div>

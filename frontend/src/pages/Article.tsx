@@ -217,88 +217,144 @@ export default function ArticlePage() {
 
       {/* 评论区 - 毛玻璃卡片 */}
       <div className="glass rounded-ios-lg shadow-ios p-[40px] border border-white/50">
-        <h2 className="text-2xl font-bold mb-6 flex items-center">
-          <span className="w-1 h-8 bg-primary/90 backdrop-blur-md rounded-full mr-3"></span>
+        <h3 className="text-lg font-semibold mb-8 text-ios-label flex items-center">
+          <span className="w-1 h-6 bg-primary/90 backdrop-blur-md rounded-full mr-2"></span>
           评论 ({comments.length})
-        </h2>
-
-        {/* 评论表单 */}
-        <form onSubmit={handleSubmitComment} className="mb-8 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-ios-label mb-2">昵称</label>
-              <input
-                type="text"
-                placeholder="怎么称呼你？"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                className="w-full px-4 py-2.5 border border-white/50 rounded-ios focus:ring-2 focus:ring-ios-primary focus:border-transparent transition-all ios-input"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-ios-label mb-2">邮箱</label>
-              <input
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 border border-white/50 rounded-ios focus:ring-2 focus:ring-ios-primary focus:border-transparent transition-all ios-input"
-                required
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-ios-label mb-2">评论</label>
-            <textarea
-              placeholder="写下你的想法..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows={4}
-              className="w-full px-4 py-2.5 border border-white/50 rounded-ios focus:ring-2 focus:ring-ios-primary focus:border-transparent transition-all ios-input"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="px-6 py-2.5 bg-primary/90 backdrop-blur-md text-white rounded-ios hover:bg-primaryDark transition-all font-medium shadow-ios border border-white/30"
-          >
-            发表评论
-          </button>
-        </form>
+        </h3>
 
         {/* 评论列表 */}
-        <div className="space-y-4">
+        <div className="space-y-4 mb-10">
           {comments.length === 0 ? (
-            <div className="text-center py-8 text-ios-secondary">
+            <div className="text-center py-12 text-ios-secondary">
               暂无评论，快来抢沙发吧！
             </div>
           ) : (
             comments.map((comment) => (
-              <div key={comment.id} className="glass rounded-ios p-6 hover:bg-white/60 transition-colors border border-white/30">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-primary/90 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
-                      <span className="text-white font-bold">
-                        {comment.nickname.charAt(0).toUpperCase()}
+              <div 
+                key={comment.id} 
+                className="rounded-[12px] mb-4"
+                style={{ 
+                  backgroundColor: '#FFFFFF',
+                  padding: '16px 20px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                }}
+              >
+                {/* 使用 flex 纵向排列 */}
+                <div className="flex flex-col">
+                  {/* 第一行：头部（头像 + 昵称 + 时间） */}
+                  <div className="flex items-center justify-between mb-[6px]">
+                    {/* 左侧：头像 + 昵称 */}
+                    <div className="flex items-center" style={{ gap: '12px' }}>
+                      {/* 头像 */}
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: '#e8f5e9' }}
+                      >
+                        <span style={{ 
+                          color: '#2e7d32', 
+                          fontSize: '16px', 
+                          fontWeight: 'bold' 
+                        }}>
+                          {comment.nickname.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      
+                      {/* 昵称 */}
+                      <span style={{ 
+                        fontSize: '16px', 
+                        fontWeight: 'bold', 
+                        color: '#1a1a2e' 
+                      }}>
+                        {comment.nickname}
                       </span>
                     </div>
-                    <div>
-                      <span className="font-semibold text-ios-label">{comment.nickname}</span>
-                      <p className="text-xs text-ios-secondary">
-                        {new Date(comment.created_at).toLocaleDateString('zh-CN', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
-                    </div>
+                    
+                    {/* 右侧：时间 */}
+                    <span style={{ 
+                      fontSize: '13px', 
+                      color: '#999' 
+                    }}>
+                      {new Date(comment.created_at).toLocaleDateString('zh-CN', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </span>
+                  </div>
+                  
+                  {/* 第二行：评论内容 */}
+                  <div style={{ 
+                    paddingLeft: '52px',
+                    marginTop: '6px'
+                  }}>
+                    <p style={{ 
+                      fontSize: '14px', 
+                      color: '#333', 
+                      lineHeight: '1.6'
+                    }}>
+                      {comment.content}
+                    </p>
                   </div>
                 </div>
-                <p className="text-ios-label leading-relaxed">{comment.content}</p>
               </div>
             ))
           )}
+        </div>
+
+        {/* 分隔线 */}
+        <div className="my-8">
+          <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+        </div>
+
+        {/* 评论表单 */}
+        <div>
+          <h3 className="text-lg font-semibold mb-6 text-ios-label flex items-center">
+            <span className="w-1 h-6 bg-primary/90 backdrop-blur-md rounded-full mr-2"></span>
+            发表评论
+          </h3>
+          <form onSubmit={handleSubmitComment} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-ios-label mb-2">昵称</label>
+                <input
+                  type="text"
+                  placeholder="怎么称呼你？"
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-white/50 rounded-ios focus:ring-2 focus:ring-ios-primary focus:border-transparent transition-all ios-input"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-ios-label mb-2">邮箱</label>
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-white/50 rounded-ios focus:ring-2 focus:ring-ios-primary focus:border-transparent transition-all ios-input"
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-ios-label mb-2">评论</label>
+              <textarea
+                placeholder="写下你的想法..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                rows={4}
+                className="w-full px-4 py-2.5 border border-white/50 rounded-ios focus:ring-2 focus:ring-ios-primary focus:border-transparent transition-all ios-input"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="px-8 py-3 bg-primary/90 backdrop-blur-md text-white rounded-ios hover:bg-primaryDark transition-all font-medium shadow-ios border border-white/30"
+            >
+              发表评论
+            </button>
+          </form>
         </div>
       </div>
     </div>
