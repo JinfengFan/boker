@@ -1,5 +1,5 @@
 # 多阶段构建 - 构建阶段
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ WORKDIR /app/frontend
 RUN npm run build
 
 # 生产阶段
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
