@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
-const { initDB } = require('./db');
+const { initDB, runAsync, getAsync } = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -47,14 +48,55 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: '服务器错误' });
 });
 
-// 初始化数据库并启动服务器
-initDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`服务器运行在 http://localhost:${PORT}`);
-  });
-}).catch(err => {
-  console.error('数据库初始化失败:', err);
-  process.exit(1);
-});
+// 初始化数据库并创建默认用户，然后启动服务器
+async function startServer() {
+  try {
+    await initDB();
+    
+    // 检查并创建默认管理员账户
+    const existingUser = await getAsync('SELECT id FROM users WHERE username = ?', ['admin']);
+    
+    if (!existingUser) {
+      const hashedPassword = bcrypt.hashSync('admin123', 10);
+      await runAsync(
+        'INSERT INTO users (username, password, email) VALUES (?, ?, ?)',
+        ['admin', hashedPassword, 'admin@example.com']
+      );
+      console.log('默认管理员账户已创建：');
+      console.log('用户名：admin');
+      console.log('密码：admin123');
+      console.log('请登录后及时修改密码！');
+    }
+    
+    // 创建默认分类
+    const categories = [
+      ['技术', '技术相关文章'],
+      ['生活', '生活随笔'],
+      ['随笔', '心情随笔']
+    ];
+    
+    for (const [name, description] of categories) {
+      try {
+        await runAsync(
+          'INSERT INTO categories (name, description) VALUES (?, ?)',
+          [name, description]
+        );
+      } catch (e) {
+        // 忽略已存在的分类
+      }
+    }
+    
+    console.log('数据库初始化完成！');
+    
+    app.listen(PORT, () => {
+      console.log(`服务器运行在 http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error('启动失败:', err);
+    process.exit(1);
+  }
+}
+
+startServer();
 
 module.exports = app;
