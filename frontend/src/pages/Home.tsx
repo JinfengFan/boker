@@ -15,8 +15,9 @@ export default function Home() {
 
   const loadData = async () => {
     try {
+      const categoryId = selectedCategory && selectedCategory !== '' ? parseInt(selectedCategory) : undefined;
       const [articlesRes, categoriesRes] = await Promise.all([
-        articleApi.getList(1, 20, selectedCategory || undefined),
+        articleApi.getList(1, 20, categoryId),
         categoryApi.getList(),
       ]);
       setArticles(articlesRes.data.articles);
