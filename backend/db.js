@@ -146,5 +146,7 @@ module.exports = {
   getAsync,
   allAsync,
   initDB,
-  saveDB
+  saveDB,
+  // 导出 db 实例以便直接访问
+  getDB: () => db
 };
