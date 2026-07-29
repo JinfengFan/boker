@@ -1,14 +1,8 @@
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Layout() {
-  const { isAuthenticated, user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+  const { isAuthenticated, user } = useAuth();
 
   return (
     <div className="min-h-screen relative flex flex-col">

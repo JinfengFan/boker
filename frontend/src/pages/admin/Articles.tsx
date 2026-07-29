@@ -88,7 +88,11 @@ export default function AdminArticles() {
         imageUrl = res.data.url || res.data.path;
       }
       
-      const submitData = { ...formData, cover_image: imageUrl };
+      const submitData = { 
+        ...formData, 
+        cover_image: imageUrl,
+        category_id: formData.category_id ? parseInt(formData.category_id) : undefined
+      };
       
       if (editingArticle) {
         await articleApi.update(editingArticle.id!, submitData);
@@ -151,7 +155,6 @@ export default function AdminArticles() {
             borderRadius: '12px',
             fontSize: '15px',
             textDecoration: 'none',
-            border: 'none',
             cursor: 'pointer',
             backgroundColor: 'rgba(0, 122, 255, 0.9)',
             color: '#ffffff',

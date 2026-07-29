@@ -71,7 +71,6 @@ export default function AdminCategories() {
             borderRadius: '12px',
             fontSize: '15px',
             textDecoration: 'none',
-            border: 'none',
             cursor: 'pointer',
             backgroundColor: 'rgba(0, 122, 255, 0.9)',
             color: '#ffffff',

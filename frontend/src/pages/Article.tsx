@@ -4,9 +4,10 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { articleApi, commentApi, Article, Comment } from '@/api';
+import { articleApi, commentApi } from '@/api';
+import type { Article, Comment } from '@/api';
 
-export default function Article() {
+export default function ArticlePage() {
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -146,7 +147,7 @@ export default function Article() {
         <div className="mb-3">
           <span 
             className="inline-block text-[15px] font-semibold px-[16px] py-[6px] rounded-[20px]"
-            style={getCategoryStyle(article.category_name)}
+            style={getCategoryStyle(article.category_name || '')}
           >
             {article.category_name || '旅行'}
           </span>

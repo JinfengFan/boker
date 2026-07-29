@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { articleApi, categoryApi, Article, Category } from '@/api';
+import { Link } from 'react-router-dom';
+import { articleApi, categoryApi } from '@/api';
+import type { Article, Category } from '@/api';
 
 export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
@@ -100,7 +100,7 @@ export default function Home() {
               transition: 'all 0.2s',
             }}
           >
-            📚 全部 ({categories.reduce((sum, cat) => sum + cat.article_count, 0)})
+            📚 全部 ({categories.reduce((sum, cat) => sum + (cat.article_count || 0), 0)})
           </button>
           {categories.map((cat) => (
             <button
