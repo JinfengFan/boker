@@ -30,8 +30,8 @@ RUN npm install --omit=dev
 # 复制后端代码
 COPY backend ./backend
 
-# 从构建阶段复制构建好的前端静态文件
-COPY --from=builder /app/frontend/dist ./backend/public
+# 从构建阶段复制构建好的前端静态文件到正确位置
+COPY --from=builder /app/frontend/dist ./frontend/dist
 
 WORKDIR /app/backend
 
