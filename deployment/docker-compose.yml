@@ -9,6 +9,7 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - DB_PATH=/app/backend/data
+      - JWT_SECRET=boker-secret-key-2024
     volumes:
       # 持久化数据库文件
       - ./data:/app/backend/data
